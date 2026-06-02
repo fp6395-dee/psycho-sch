@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Динамический сайт | JavaScript эффекты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя Панель Продуктивности</title>
     <style>
         * {
             margin: 0;
@@ -20,14 +20,12 @@
             min-height: 100vh;
         }
 
-        /* Modern glassmorphism container */
         .container {
             max-width: 1300px;
             margin: 0 auto;
             padding: 2rem 1.5rem;
         }
 
-        /* Header section */
         .hero {
             text-align: center;
             margin-bottom: 3rem;
@@ -56,7 +54,6 @@
             opacity: 0.85;
         }
 
-        /* Dashboard cards grid */
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -89,202 +86,198 @@
             color: #1f2e45;
         }
 
-        /* Компоненты внутри карточек */
-        .counter-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.2rem;
-        }
-
-        .counter-display {
-            font-size: 4rem;
+        /* Стили для калькулятора */
+        .calculator-display {
+            background: #1a2a3a;
+            color: #f0f9ff;
+            font-size: 2.5rem;
             font-weight: 800;
             font-family: monospace;
-            background: #1a2a3a;
-            display: inline-block;
-            padding: 0.5rem 1.8rem;
-            border-radius: 3rem;
-            color: #f0f9ff;
-            letter-spacing: 4px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05);
-        }
-
-        .button-group {
+            padding: 1rem;
+            border-radius: 1.5rem;
+            text-align: right;
+            margin-bottom: 1rem;
+            min-height: 80px;
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            align-items: center;
+            justify-content: flex-end;
+            overflow-x: auto;
         }
 
-        button {
-            background: #1e3a5f;
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calc-btn {
+            padding: 1rem;
             border: none;
-            padding: 0.7rem 1.4rem;
-            border-radius: 2rem;
+            border-radius: 1rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            font-size: 1rem;
-            color: white;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            transition: 0.15s;
-            font-family: inherit;
+            background: #e8f0fe;
+            color: #1a2634;
         }
 
-        button:hover {
-            background: #0f2b48;
-            transform: scale(0.97);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        button:active {
+        .calc-btn:hover {
+            background: #d0e0fc;
             transform: scale(0.95);
         }
 
-        .btn-secondary {
-            background: #3b6e8b;
+        .calc-btn.operator {
+            background: #2a7faa;
+            color: white;
         }
 
-        .btn-secondary:hover {
-            background: #2c5a74;
-        }
-
-        .btn-reset {
-            background: #9e2a2f;
-        }
-
-        .btn-reset:hover {
-            background: #7e2025;
-        }
-
-        .theme-btn {
+        .calc-btn.equals {
             background: #2c5f2d;
+            color: white;
+            grid-column: span 2;
         }
 
-        /* Color switcher */
-        .color-box {
-            margin-top: 1rem;
-            text-align: center;
-            background: #eef2fa;
-            border-radius: 1.5rem;
-            padding: 1rem;
+        .calc-btn.clear {
+            background: #9e2a2f;
+            color: white;
         }
 
-        .color-preview {
+        /* Стили для конвертера валют */
+        .converter-group {
+            margin-bottom: 1rem;
+        }
+
+        .converter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e66;
+        }
+
+        .converter-group input, .converter-group select {
             width: 100%;
-            height: 90px;
-            border-radius: 1.5rem;
-            margin: 0.8rem 0;
-            background-color: #4a90e2;
-            transition: background 0.2s;
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05), 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .color-controls {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .color-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            cursor: pointer;
-        }
-
-        /* To-do list */
-        .todo-input-group {
-            display: flex;
-            gap: 10px;
-            margin: 1rem 0 1.2rem;
-        }
-
-        .todo-input-group input {
-            flex: 1;
-            padding: 0.7rem 1rem;
-            border-radius: 2rem;
+            padding: 0.8rem;
             border: 1px solid #cbd5e1;
-            background: white;
-            font-size: 0.95rem;
+            border-radius: 1rem;
+            font-size: 1rem;
             outline: none;
-            transition: 0.2s;
         }
 
-        .todo-input-group input:focus {
+        .converter-group input:focus, .converter-group select:focus {
             border-color: #2a7faa;
             box-shadow: 0 0 0 3px rgba(42,127,170,0.2);
         }
 
-        .todo-list {
-            list-style: none;
-            max-height: 260px;
-            overflow-y: auto;
-            padding-right: 5px;
+        .convert-result {
+            background: #e8f0fe;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
         }
 
-        .todo-list li {
-            background: #f8fafc;
-            margin: 0.5rem 0;
-            padding: 0.6rem 0.8rem;
-            border-radius: 1.2rem;
+        /* Стили для заметок */
+        .notes-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 1rem;
+            font-size: 1rem;
+            resize: vertical;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .notes-area:focus {
+            border-color: #2a7faa;
+            box-shadow: 0 0 0 3px rgba(42,127,170,0.2);
+        }
+
+        .save-status {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+
+        /* Стили для таймера помодоро */
+        .pomodoro-display {
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: monospace;
+            text-align: center;
+            background: #1a2a3a;
+            color: #bbf0ff;
+            padding: 1rem;
+            border-radius: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pomodoro-controls {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid #e2edf2;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .todo-text {
-            flex: 1;
+        .pomodoro-btn {
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
         }
 
-        .todo-text.completed {
-            text-decoration: line-through;
+        .start-pomodoro {
+            background: #2c5f2d;
+            color: white;
+        }
+
+        .pause-pomodoro {
+            background: #3b6e8b;
+            color: white;
+        }
+
+        .reset-pomodoro {
+            background: #9e2a2f;
+            color: white;
+        }
+
+        .pomodoro-stats {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
             color: #6c757d;
         }
 
-        .delete-todo {
-            background: none;
-            color: #bc5a5a;
-            font-size: 1.2rem;
-            font-weight: bold;
-            padding: 0 8px;
-            box-shadow: none;
-            background: #ffe8e8;
-            border-radius: 2rem;
-            width: 32px;
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2c5f2d;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
         }
 
-        .delete-todo:hover {
-            background: #f3c2c2;
-            color: #a03434;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        /* Интерактивный таймер */
-        .timer-panel {
-            text-align: center;
-        }
-
-        .timer-clock {
-            font-size: 3rem;
-            font-family: monospace;
-            font-weight: 800;
-            background: #0b1e2e;
-            display: inline-block;
-            padding: 0.3rem 1.2rem;
-            border-radius: 2rem;
-            color: #bbf0ff;
-            margin: 0.5rem 0;
-            letter-spacing: 3px;
-        }
-
-        /* Footer */
         footer {
             margin-top: 3.5rem;
             text-align: center;
@@ -301,8 +294,8 @@
             h1 {
                 font-size: 2.2rem;
             }
-            .counter-display {
-                font-size: 2.8rem;
+            .calculator-display {
+                font-size: 2rem;
             }
         }
     </style>
@@ -310,395 +303,367 @@
 <body>
 <div class="container">
     <div class="hero">
-        <h1>✨ Интерактивная песочница</h1>
-        <div class="tagline">JavaScript | Живые компоненты | Анимация и удобство</div>
+        <h1>🛠️ Панель Продуктивности</h1>
+        <div class="tagline">Калькулятор • Конвертер • Заметки • Помодоро Таймер</div>
     </div>
 
     <div class="dashboard">
-        <!-- Карточка 1: Счётчик с историей -->
+        <!-- Карточка 1: Калькулятор -->
         <div class="card">
-            <h2>🔢 Умный счётчик</h2>
-            <div class="counter-area">
-                <div class="counter-display" id="counterValue">0</div>
-                <div class="button-group">
-                    <button id="incBtn">+1 Увеличить</button>
-                    <button id="decBtn" class="btn-secondary">-1 Уменьшить</button>
-                    <button id="resetCounterBtn" class="btn-reset">Сброс</button>
-                </div>
-                <div style="font-size: 0.85rem; margin-top: 8px; background: #eef3fc; border-radius: 2rem; padding: 5px 12px;">
-                    📌 Последнее действие: <span id="lastAction">—</span>
-                </div>
+            <h2>🧮 Калькулятор</h2>
+            <div class="calculator-display" id="calcDisplay">0</div>
+            <div class="calc-buttons">
+                <button class="calc-btn clear" onclick="clearCalc()">C</button>
+                <button class="calc-btn" onclick="appendToCalc('(')">(</button>
+                <button class="calc-btn" onclick="appendToCalc(')')">)</button>
+                <button class="calc-btn operator" onclick="appendToCalc('/')">÷</button>
+                
+                <button class="calc-btn" onclick="appendToCalc('7')">7</button>
+                <button class="calc-btn" onclick="appendToCalc('8')">8</button>
+                <button class="calc-btn" onclick="appendToCalc('9')">9</button>
+                <button class="calc-btn operator" onclick="appendToCalc('*')">×</button>
+                
+                <button class="calc-btn" onclick="appendToCalc('4')">4</button>
+                <button class="calc-btn" onclick="appendToCalc('5')">5</button>
+                <button class="calc-btn" onclick="appendToCalc('6')">6</button>
+                <button class="calc-btn operator" onclick="appendToCalc('-')">−</button>
+                
+                <button class="calc-btn" onclick="appendToCalc('1')">1</button>
+                <button class="calc-btn" onclick="appendToCalc('2')">2</button>
+                <button class="calc-btn" onclick="appendToCalc('3')">3</button>
+                <button class="calc-btn operator" onclick="appendToCalc('+')">+</button>
+                
+                <button class="calc-btn" onclick="appendToCalc('0')">0</button>
+                <button class="calc-btn" onclick="appendToCalc('.')">.</button>
+                <button class="calc-btn equals" onclick="calculateResult()">=</button>
             </div>
         </div>
 
-        <!-- Карточка 2: Палитра цветов и динамический фон -->
+        <!-- Карточка 2: Конвертер валют -->
         <div class="card">
-            <h2>🎨 Магия цвета</h2>
-            <div class="color-box">
-                <div class="color-preview" id="colorPreview"></div>
-                <div class="color-controls">
-                    <div class="color-btn" style="background-color: #4a90e2;" data-color="#4a90e2"></div>
-                    <div class="color-btn" style="background-color: #e94f4f;" data-color="#e94f4f"></div>
-                    <div class="color-btn" style="background-color: #43b380;" data-color="#43b380"></div>
-                    <div class="color-btn" style="background-color: #f5a623;" data-color="#f5a623"></div>
-                    <div class="color-btn" style="background-color: #9b59b6;" data-color="#9b59b6"></div>
-                    <div class="color-btn" style="background-color: #1abc9c;" data-color="#1abc9c"></div>
-                </div>
-                <button id="randomColorBtn" style="margin-top: 14px; background:#334e68;">🎲 Случайный цвет</button>
-                <p style="margin-top: 12px; font-size: 0.75rem;">Выберите цвет — фон блока изменится</p>
+            <h2>💱 Конвертер валют</h2>
+            <div class="converter-group">
+                <label for="amount">Сумма:</label>
+                <input type="number" id="amount" placeholder="Введите сумму" value="1000">
             </div>
+            <div class="converter-group">
+                <label for="fromCurrency">Из валюты:</label>
+                <select id="fromCurrency">
+                    <option value="RUB">Рубли (RUB)</option>
+                    <option value="USD">Доллары (USD)</option>
+                    <option value="EUR">Евро (EUR)</option>
+                    <option value="GBP">Фунты (GBP)</option>
+                    <option value="CNY">Юани (CNY)</option>
+                </select>
+            </div>
+            <div class="converter-group">
+                <label for="toCurrency">В валюту:</label>
+                <select id="toCurrency">
+                    <option value="USD">Доллары (USD)</option>
+                    <option value="RUB">Рубли (RUB)</option>
+                    <option value="EUR">Евро (EUR)</option>
+                    <option value="GBP">Фунты (GBP)</option>
+                    <option value="CNY">Юани (CNY)</option>
+                </select>
+            </div>
+            <button onclick="convertCurrency()" style="width: 100%; padding: 0.8rem; background: #2a7faa; color: white; border: none; border-radius: 1rem; font-weight: 600; cursor: pointer;">Конвертировать</button>
+            <div class="convert-result" id="convertResult">Введите сумму и нажмите "Конвертировать"</div>
         </div>
 
-        <!-- Карточка 3: Список дел (To-Do) -->
+        <!-- Карточка 3: Быстрые заметки -->
         <div class="card">
-            <h2>✅ Задачник</h2>
-            <div class="todo-input-group">
-                <input type="text" id="todoInput" placeholder="Написать код... 📝" maxlength="50">
-                <button id="addTodoBtn">➕ Добавить</button>
-            </div>
-            <ul class="todo-list" id="todoListContainer">
-                <li style="opacity:0.7;">✨ Пример: нажмите "Добавить"</li>
-            </ul>
-            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                <span id="todoStats">📋 0 задач</span>
-                <button id="clearTodosBtn" class="btn-reset" style="padding: 0.3rem 1rem;">Очистить всё</button>
-            </div>
+            <h2>📝 Быстрые заметки</h2>
+            <textarea class="notes-area" id="quickNotes" placeholder="Ваши заметки здесь... Они автоматически сохраняются"></textarea>
+            <div class="save-status" id="saveStatus">Сохранено</div>
         </div>
 
-        <!-- Карточка 4: Таймер + анимация -->
+        <!-- Карточка 4: Помодоро таймер -->
         <div class="card">
-            <h2>⏱️ Таймер сессии</h2>
-            <div class="timer-panel">
-                <div class="timer-clock" id="timerDisplay">00:00</div>
-                <div class="button-group">
-                    <button id="startTimerBtn">▶ Старт</button>
-                    <button id="pauseTimerBtn" class="btn-secondary">⏸ Пауза</button>
-                    <button id="resetTimerBtn" class="btn-reset">🔄 Сброс</button>
-                </div>
-                <p style="margin-top: 14px; font-size: 0.75rem;">Секундомер с точностью до секунды</p>
+            <h2>🍅 Помодоро таймер</h2>
+            <div class="pomodoro-display" id="pomodoroDisplay">25:00</div>
+            <div class="pomodoro-controls">
+                <button class="pomodoro-btn start-pomodoro" onclick="startPomodoro()">Старт</button>
+                <button class="pomodoro-btn pause-pomodoro" onclick="pausePomodoro()">Пауза</button>
+                <button class="pomodoro-btn reset-pomodoro" onclick="resetPomodoro()">Сброс</button>
+            </div>
+            <div class="pomodoro-stats">
+                Завершено сессий сегодня: <span id="completedSessions">0</span>
+            </div>
+            <div style="margin-top: 1rem; text-align: center;">
+                <label>
+                    <input type="checkbox" id="soundEnabled" checked> Включить звук
+                </label>
             </div>
         </div>
     </div>
 
-    <!-- Дополнительная интерактивная панель: динамическое приветствие -->
-    <div style="margin-top: 2rem; background: rgba(255,255,240,0.7); border-radius: 2rem; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
-        <div>
-            <span style="font-weight: bold;">👋 Привет, гость! </span>
-            <span id="liveTimeMsg">Сегодня отличный день для кода.</span>
-        </div>
-        <button id="greetingBtn" style="background:#2c5a6e;">💬 Показать сообщение</button>
-    </div>
     <footer>
-        ⚡ Создано на чистом JavaScript • Реактивные компоненты • Никаких зависимостей
+        ⚡ Панель продуктивности • Все данные сохраняются локально • Работает без интернета
     </footer>
 </div>
 
 <script>
-    // ---------- 1. Умный счётчик ----------
-    let counter = 0;
-    const counterEl = document.getElementById('counterValue');
-    const lastActionSpan = document.getElementById('lastAction');
+    // ========== КАЛЬКУЛЯТОР ==========
+    let calcExpression = '';
+    const calcDisplay = document.getElementById('calcDisplay');
 
-    function updateCounterUI() {
-        counterEl.innerText = counter;
-        // дополнительная визуальная динамика: мигание при изменении (небольшой эффект)
-        counterEl.style.transform = 'scale(1.05)';
-        setTimeout(() => { if(counterEl) counterEl.style.transform = 'scale(1)'; }, 130);
+    function updateCalcDisplay() {
+        calcDisplay.textContent = calcExpression || '0';
     }
 
-    function setLastAction(message) {
-        lastActionSpan.innerText = message;
+    function appendToCalc(value) {
+        calcExpression += value;
+        updateCalcDisplay();
     }
 
-    document.getElementById('incBtn').addEventListener('click', () => {
-        counter++;
-        updateCounterUI();
-        setLastAction(`+1 → ${counter}`);
-    });
-    document.getElementById('decBtn').addEventListener('click', () => {
-        counter--;
-        updateCounterUI();
-        setLastAction(`-1 → ${counter}`);
-    });
-    document.getElementById('resetCounterBtn').addEventListener('click', () => {
-        counter = 0;
-        updateCounterUI();
-        setLastAction(`сброс → 0`);
-    });
-
-    // ---------- 2. Палитра цвета: изменение блока preview, плюс можно менять стиль карточки? (по желанию - меняем preview)
-    const colorPreviewDiv = document.getElementById('colorPreview');
-    const colorBtns = document.querySelectorAll('.color-btn');
-    const randomColorBtn = document.getElementById('randomColorBtn');
-
-    function setColor(colorHex) {
-        colorPreviewDiv.style.backgroundColor = colorHex;
-        // Добавим легкий эффект "пульсация"
-        colorPreviewDiv.style.transform = 'scale(0.98)';
-        setTimeout(() => { if(colorPreviewDiv) colorPreviewDiv.style.transform = 'scale(1)'; }, 120);
-        // Сохраним в LocalStorage (просто для прикола)
-        localStorage.setItem('favColor', colorHex);
+    function clearCalc() {
+        calcExpression = '';
+        updateCalcDisplay();
     }
 
-    colorBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const color = btn.getAttribute('data-color');
-            if(color) setColor(color);
-        });
-    });
-
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
+    function calculateResult() {
+        try {
+            if (calcExpression) {
+                // Безопасное вычисление выражения
+                const result = Function('"use strict"; return (' + calcExpression + ')')();
+                calcExpression = String(result);
+                updateCalcDisplay();
+            }
+        } catch (error) {
+            calcExpression = 'Ошибка';
+            updateCalcDisplay();
+            setTimeout(clearCalc, 1500);
         }
-        return color;
     }
 
-    randomColorBtn.addEventListener('click', () => {
-        const randCol = getRandomColor();
-        setColor(randCol);
+    // Поддержка клавиатуры для калькулятора
+    document.addEventListener('keydown', (e) => {
+        if (e.key >= '0' && e.key <= '9' || e.key === '.' || e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '(' || e.key === ')') {
+            appendToCalc(e.key);
+        } else if (e.key === 'Enter') {
+            calculateResult();
+        } else if (e.key === 'Escape') {
+            clearCalc();
+        } else if (e.key === 'Backspace') {
+            calcExpression = calcExpression.slice(0, -1);
+            updateCalcDisplay();
+        }
     });
 
-    // восстановим цвет если был сохранен
-    const savedColor = localStorage.getItem('favColor');
-    if(savedColor && savedColor.match(/^#[0-9A-F]{6}$/i)) {
-        setColor(savedColor);
-    } else {
-        // начальный цвет
-        setColor('#4a90e2');
-    }
+    // ========== КОНВЕРТЕР ВАЛЮТ ==========
+    // Курсы валют (в реальном приложении нужно получать с API)
+    const exchangeRates = {
+        RUB: { USD: 0.011, EUR: 0.010, GBP: 0.0085, CNY: 0.079, RUB: 1 },
+        USD: { RUB: 92.5, EUR: 0.92, GBP: 0.79, CNY: 7.25, USD: 1 },
+        EUR: { RUB: 100.5, USD: 1.09, GBP: 0.86, CNY: 7.88, EUR: 1 },
+        GBP: { RUB: 117.0, USD: 1.27, EUR: 1.16, CNY: 9.17, GBP: 1 },
+        CNY: { RUB: 12.8, USD: 0.138, EUR: 0.127, GBP: 0.109, CNY: 1 }
+    };
 
-    // ---------- 3. To-Do лист с полным функционалом ----------
-    const todoInput = document.getElementById('todoInput');
-    const addTodoBtn = document.getElementById('addTodoBtn');
-    const todoListContainer = document.getElementById('todoListContainer');
-    const todoStatsSpan = document.getElementById('todoStats');
-    const clearTodosBtn = document.getElementById('clearTodosBtn');
+    function convertCurrency() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const fromCurrency = document.getElementById('fromCurrency').value;
+        const toCurrency = document.getElementById('toCurrency').value;
+        const resultElement = document.getElementById('convertResult');
 
-    let todos = []; // массив объектов { text, completed }
-
-    function renderTodoList() {
-        if(!todoListContainer) return;
-        if(todos.length === 0) {
-            todoListContainer.innerHTML = '<li style="opacity:0.6; justify-content:center;">✨ Список пуст, добавьте задачу</li>';
-            todoStatsSpan.innerText = '📋 0 задач';
+        if (isNaN(amount) || amount <= 0) {
+            resultElement.textContent = 'Введите корректную сумму';
             return;
         }
-        const fragment = document.createDocumentFragment();
-        todos.forEach((todo, index) => {
-            const li = document.createElement('li');
-            const spanText = document.createElement('span');
-            spanText.className = 'todo-text';
-            if(todo.completed) spanText.classList.add('completed');
-            spanText.innerText = todo.text;
-            spanText.addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleTodoComplete(index);
-            });
 
-            const delBtn = document.createElement('button');
-            delBtn.innerText = '✖';
-            delBtn.className = 'delete-todo';
-            delBtn.setAttribute('aria-label', 'Удалить');
-            delBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteTodoItem(index);
-            });
-            li.appendChild(spanText);
-            li.appendChild(delBtn);
-            fragment.appendChild(li);
-        });
-        todoListContainer.innerHTML = '';
-        todoListContainer.appendChild(fragment);
-        const completedCount = todos.filter(t => t.completed).length;
-        todoStatsSpan.innerText = `📋 ${todos.length} задач (✓ ${completedCount} выполнено)`;
-    }
-
-    function addNewTodo() {
-        const text = todoInput.value.trim();
-        if(text === "") {
-            // легкое уведомление
-            const alertMsg = document.createElement('div');
-            alertMsg.innerText = '✏️ Введите текст задачи!';
-            alertMsg.style.position = 'fixed';
-            alertMsg.style.bottom = '20px';
-            alertMsg.style.left = '20px';
-            alertMsg.style.background = '#ffecb3';
-            alertMsg.style.padding = '8px 18px';
-            alertMsg.style.borderRadius = '30px';
-            alertMsg.style.zIndex = '999';
-            alertMsg.style.fontSize = '0.85rem';
-            document.body.appendChild(alertMsg);
-            setTimeout(() => alertMsg.remove(), 1500);
+        if (!exchangeRates[fromCurrency] || !exchangeRates[fromCurrency][toCurrency]) {
+            resultElement.textContent = 'Ошибка конвертации';
             return;
         }
-        if(text.length > 50) {
-            alert("Максимум 50 символов");
-            return;
-        }
-        todos.push({ text: text, completed: false });
-        todoInput.value = "";
-        renderTodoList();
-        saveTodosToLocal();
+
+        const rate = exchangeRates[fromCurrency][toCurrency];
+        const result = (amount * rate).toFixed(2);
+        
+        resultElement.textContent = `${amount} ${fromCurrency} = ${result} ${toCurrency}`;
     }
 
-    function toggleTodoComplete(index) {
-        if(todos[index]) {
-            todos[index].completed = !todos[index].completed;
-            renderTodoList();
-            saveTodosToLocal();
-        }
-    }
+    // Автоматическая конвертация при изменении значений
+    document.getElementById('amount').addEventListener('input', convertCurrency);
+    document.getElementById('fromCurrency').addEventListener('change', convertCurrency);
+    document.getElementById('toCurrency').addEventListener('change', convertCurrency);
 
-    function deleteTodoItem(index) {
-        todos.splice(index, 1);
-        renderTodoList();
-        saveTodosToLocal();
-    }
+    // ========== БЫСТРЫЕ ЗАМЕТКИ ==========
+    const quickNotes = document.getElementById('quickNotes');
+    const saveStatus = document.getElementById('saveStatus');
+    let saveTimeout;
 
-    function clearAllTodos() {
-        if(todos.length > 0 && confirm("Удалить все задачи?")) {
-            todos = [];
-            renderTodoList();
-            saveTodosToLocal();
-        } else if(todos.length === 0) {
-            // просто уведомление
+    // Загрузка сохраненных заметок
+    function loadNotes() {
+        const savedNotes = localStorage.getItem('quickNotes');
+        if (savedNotes) {
+            quickNotes.value = savedNotes;
         }
     }
 
-    function saveTodosToLocal() {
-        localStorage.setItem('todoAppList', JSON.stringify(todos));
+    // Автосохранение заметок
+    function saveNotes() {
+        localStorage.setItem('quickNotes', quickNotes.value);
+        saveStatus.textContent = 'Сохранено';
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            saveStatus.textContent = 'Сохранено';
+        }, 2000);
     }
 
-    function loadTodosFromLocal() {
-        const stored = localStorage.getItem('todoAppList');
-        if(stored) {
-            try {
-                const parsed = JSON.parse(stored);
-                if(Array.isArray(parsed)) {
-                    todos = parsed;
-                } else {
-                    todos = [];
-                }
-            } catch(e) { todos = []; }
-        } else {
-            // демо-примеры для красоты: несколько примеров задач
-            todos = [
-                { text: 'Изучить JavaScript промисы', completed: false },
-                { text: 'Поэкспериментировать с DOM', completed: true },
-                { text: '⭐ Наслаждаться интерфейсом', completed: false }
-            ];
-        }
-        renderTodoList();
-    }
-
-    addTodoBtn.addEventListener('click', addNewTodo);
-    todoInput.addEventListener('keypress', (e) => {
-        if(e.key === 'Enter') addNewTodo();
+    quickNotes.addEventListener('input', () => {
+        saveStatus.textContent = 'Сохранение...';
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(saveNotes, 1000);
     });
-    clearTodosBtn.addEventListener('click', clearAllTodos);
 
-    // ---------- 4. Таймер (секундомер) ----------
-    let timerSeconds = 0;
-    let timerInterval = null;
-    let isTimerRunning = false;
-    const timerDisplaySpan = document.getElementById('timerDisplay');
-    const startTimerBtn = document.getElementById('startTimerBtn');
-    const pauseTimerBtn = document.getElementById('pauseTimerBtn');
-    const resetTimerBtn = document.getElementById('resetTimerBtn');
+    // ========== ПОМОДОРО ТАЙМЕР ==========
+    let pomodoroTime = 25 * 60; // 25 минут в секундах
+    let pomodoroInterval = null;
+    let isPomodoroRunning = false;
+    let completedSessions = parseInt(localStorage.getItem('completedSessions')) || 0;
+    
+    const pomodoroDisplay = document.getElementById('pomodoroDisplay');
+    const completedSessionsElement = document.getElementById('completedSessions');
+    const soundEnabled = document.getElementById('soundEnabled');
 
-    function formatTimer(sec) {
-        const mins = Math.floor(sec / 60);
-        const remainingSec = sec % 60;
-        return `${mins.toString().padStart(2, '0')}:${remainingSec.toString().padStart(2, '0')}`;
+    // Обновление отображения таймера
+    function updatePomodoroDisplay() {
+        const minutes = Math.floor(pomodoroTime / 60);
+        const seconds = pomodoroTime % 60;
+        pomodoroDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    function updateTimerUI() {
-        if(timerDisplaySpan) timerDisplaySpan.innerText = formatTimer(timerSeconds);
-    }
-
-    function startTimer() {
-        if(isTimerRunning) return;
-        isTimerRunning = true;
-        if(timerInterval) clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            if(isTimerRunning) {
-                timerSeconds++;
-                updateTimerUI();
-                // вибрация на UI? нет, просто счет
+    // Запуск таймера
+    function startPomodoro() {
+        if (isPomodoroRunning) return;
+        
+        isPomodoroRunning = true;
+        pomodoroInterval = setInterval(() => {
+            if (pomodoroTime > 0) {
+                pomodoroTime--;
+                updatePomodoroDisplay();
+            } else {
+                // Таймер завершен
+                completePomodoro();
             }
         }, 1000);
     }
 
-    function pauseTimer() {
-        if(!isTimerRunning) return;
-        isTimerRunning = false;
-        if(timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
+    // Пауза таймера
+    function pausePomodoro() {
+        if (!isPomodoroRunning) return;
+        
+        isPomodoroRunning = false;
+        clearInterval(pomodoroInterval);
+        pomodoroInterval = null;
+    }
+
+    // Сброс таймера
+    function resetPomodoro() {
+        pausePomodoro();
+        pomodoroTime = 25 * 60;
+        updatePomodoroDisplay();
+    }
+
+    // Завершение сессии помодоро
+    function completePomodoro() {
+        pausePomodoro();
+        completedSessions++;
+        localStorage.setItem('completedSessions', completedSessions);
+        completedSessionsElement.textContent = completedSessions;
+        
+        // Воспроизведение звука если включено
+        if (soundEnabled.checked) {
+            playNotificationSound();
+        }
+        
+        showNotification('🍅 Сессия помодоро завершена! Время отдохнуть.', 'success');
+        
+        // Автоматический сброс для следующей сессии
+        setTimeout(() => {
+            resetPomodoro();
+        }, 3000);
+    }
+
+    // Воспроизведение звука уведомления
+    function playNotificationSound() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        } catch (e) {
+            console.log('Не удалось воспроизвести звук');
         }
     }
 
-    function resetTimer() {
-        pauseTimer();
-        timerSeconds = 0;
-        updateTimerUI();
-        isTimerRunning = false;
+    // Инициализация помодоро таймера
+    function initPomodoro() {
+        updatePomodoroDisplay();
+        completedSessionsElement.textContent = completedSessions;
     }
 
-    startTimerBtn.addEventListener('click', startTimer);
-    pauseTimerBtn.addEventListener('click', pauseTimer);
-    resetTimerBtn.addEventListener('click', resetTimer);
-
-    // ---------- 5. Дополнительные функции: приветствие и актуальное время ----------
-    const liveTimeMsgSpan = document.getElementById('liveTimeMsg');
-    const greetingBtn = document.getElementById('greetingBtn');
-
-    function updateLiveMessage() {
-        const now = new Date();
-        const hours = now.getHours();
-        let greeting = '';
-        if(hours < 12) greeting = 'Доброе утро ☀️';
-        else if(hours < 18) greeting = 'Хорошего дня 🌤️';
-        else greeting = 'Спокойной ночи 🌙';
-        liveTimeMsgSpan.innerHTML = `${greeting}, сейчас ${now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
-    }
-    updateLiveMessage();
-    setInterval(updateLiveMessage, 1000);
-
-    greetingBtn.addEventListener('click', () => {
-        const userMessage = prompt("Введите ваше имя или пожелание:", "Друг");
-        if(userMessage && userMessage.trim() !== "") {
-            alert(`✨ Привет, ${userMessage}! Спасибо за использование интерактивного сайта ✨`);
-        } else if (userMessage !== null) {
-            alert("👋 Привет! Рады вас видеть!");
+    // ========== УВЕДОМЛЕНИЯ ==========
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        
+        // Устанавливаем цвет в зависимости от типа уведомления
+        switch(type) {
+            case 'success':
+                notification.style.background = '#2c5f2d';
+                break;
+            case 'error':
+                notification.style.background = '#9e2a2f';
+                break;
+            case 'warning':
+                notification.style.background = '#f5a623';
+                break;
+            default:
+                notification.style.background = '#3b6e8b';
         }
+        
+        document.body.appendChild(notification);
+        
+        // Удаляем уведомление через 3 секунды
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                if(notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    // ========== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ==========
+    document.addEventListener('DOMContentLoaded', () => {
+        loadNotes();
+        initPomodoro();
+        
+        // Начальная конвертация
+        convertCurrency();
+        
+        showNotification('🛠️ Панель продуктивности загружена!', 'success');
     });
 
-    // дополнительный эффект: при загрузке показать актуальный counter и загрузить таймер
-    // Инициализация To-Do:
-    loadTodosFromLocal();
-    updateCounterUI();
-    setLastAction("готово");
-    // Если был сохранен счетчик? по желанию нет, но все ок.
-    // добавим слушатель для сохранения Todo при закрытии? уже сохраняется при каждом изменении
-
-    // Небольшой эффект для демонстрации динамичности: слушатели на карточки, чтобы показать активность.
-    console.log("Сайт полностью загружен, все модули активны!");
-
-    // Анимация при наведении на таймер - просто приятно
-    // но все работает.
-    // Также: чтобы изменить background главного блока? не обязательно, но добавим эстетику.
-    // Легкий "живой" таймер на часах не мешает.
-    // финальный штрих: добавим кнопку импровизации для очистки localStorage с задачами (но не обязательно)
-    window.addEventListener('beforeunload', () => {
-        // автосохранение уже есть
-    });
-    // дополнительная фишка: сбросить все данные (секретная комбинация?) можно кнопкой "Сбросить настройки" пока не нужна.
-    // но реализуем красивый обработчик для любого динамического события.
-    // Адаптивность.
+    // Обработка ошибок
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.error('Ошибка:', message, 'в', source, 'строка', lineno);
+        return false;
+    };
 </script>
 </body>
 </html>
