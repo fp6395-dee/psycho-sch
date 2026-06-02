@@ -2,152 +2,703 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Пробный Сайт</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Динамический сайт | JavaScript эффекты</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.2s ease;
         }
 
         body {
-            background: #0d0e15;
-            color: #fff;
-            overflow-hidden: min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            perspective: 1000px;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Roboto', sans-serif;
+            background: linear-gradient(145deg, #f5f7fc 0%, #eef2f8 100%);
+            color: #1a2634;
+            line-height: 1.5;
+            min-height: 100vh;
         }
 
-        /* Эффект 1: Анимированный фон из частиц */
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
+        /* Modern glassmorphism container */
         .container {
-            position: relative;
-            z-index: 2;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header section */
+        .hero {
             text-align: center;
-            padding: 20px;
+            margin-bottom: 3rem;
+            padding: 1.5rem 0.5rem;
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(8px);
+            border-radius: 3rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
 
-        /* Эффект 2: Печатающийся текст */
-        .typing-text {
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #00f0ff;
-            text-shadow: 0 0 10px #00f0ff;
-            border-right: 3px solid #ff007f;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-            animation: typing 3.5s steps(30, end) forwards, blink 0.75s step-end infinite;
-            margin-bottom: 40px;
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #00b4aa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
         }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
+        .tagline {
+            font-size: 1.2rem;
+            color: #2c3e66;
+            margin-top: 0.75rem;
+            font-weight: 500;
+            opacity: 0.85;
         }
 
-        @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: #ff007f; }
+        /* Dashboard cards grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
         }
 
-        /* Эффект 3: Интерактивная 3D-карточка с неоновым свечением */
         .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            max-width: 400px;
-            cursor: pointer;
-            transform-style: preserve-3d;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 1.6rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .card:hover {
-            border-color: #ff007f;
-            box-shadow: 0 0 30px rgba(255, 0, 127, 0.4), inset 0 0 15px rgba(255, 0, 127, 0.2);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 40px -14px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.97);
         }
 
         .card h2 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #fff;
-            transform: translateZ(30px);
+            font-size: 1.7rem;
+            font-weight: 600;
+            border-left: 5px solid #2a7faa;
+            padding-left: 1rem;
+            margin-bottom: 1.25rem;
+            color: #1f2e45;
         }
 
-        .card p {
-            color: #8a8f98;
-            line-height: 1.6;
-            transform: translateZ(20px);
+        /* Компоненты внутри карточек */
+        .counter-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .counter-display {
+            font-size: 4rem;
+            font-weight: 800;
+            font-family: monospace;
+            background: #1a2a3a;
+            display: inline-block;
+            padding: 0.5rem 1.8rem;
+            border-radius: 3rem;
+            color: #f0f9ff;
+            letter-spacing: 4px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: #1e3a5f;
+            border: none;
+            padding: 0.7rem 1.4rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: 0.15s;
+            font-family: inherit;
+        }
+
+        button:hover {
+            background: #0f2b48;
+            transform: scale(0.97);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-secondary {
+            background: #3b6e8b;
+        }
+
+        .btn-secondary:hover {
+            background: #2c5a74;
+        }
+
+        .btn-reset {
+            background: #9e2a2f;
+        }
+
+        .btn-reset:hover {
+            background: #7e2025;
+        }
+
+        .theme-btn {
+            background: #2c5f2d;
+        }
+
+        /* Color switcher */
+        .color-box {
+            margin-top: 1rem;
+            text-align: center;
+            background: #eef2fa;
+            border-radius: 1.5rem;
+            padding: 1rem;
+        }
+
+        .color-preview {
+            width: 100%;
+            height: 90px;
+            border-radius: 1.5rem;
+            margin: 0.8rem 0;
+            background-color: #4a90e2;
+            transition: background 0.2s;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05), 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .color-controls {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .color-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        /* To-do list */
+        .todo-input-group {
+            display: flex;
+            gap: 10px;
+            margin: 1rem 0 1.2rem;
+        }
+
+        .todo-input-group input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .todo-input-group input:focus {
+            border-color: #2a7faa;
+            box-shadow: 0 0 0 3px rgba(42,127,170,0.2);
+        }
+
+        .todo-list {
+            list-style: none;
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .todo-list li {
+            background: #f8fafc;
+            margin: 0.5rem 0;
+            padding: 0.6rem 0.8rem;
+            border-radius: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #e2edf2;
+        }
+
+        .todo-text {
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .todo-text.completed {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+
+        .delete-todo {
+            background: none;
+            color: #bc5a5a;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 0 8px;
+            box-shadow: none;
+            background: #ffe8e8;
+            border-radius: 2rem;
+            width: 32px;
+        }
+
+        .delete-todo:hover {
+            background: #f3c2c2;
+            color: #a03434;
+        }
+
+        /* Интерактивный таймер */
+        .timer-panel {
+            text-align: center;
+        }
+
+        .timer-clock {
+            font-size: 3rem;
+            font-family: monospace;
+            font-weight: 800;
+            background: #0b1e2e;
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 2rem;
+            color: #bbf0ff;
+            margin: 0.5rem 0;
+            letter-spacing: 3px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #4a627a;
+            padding: 1rem 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .counter-display {
+                font-size: 2.8rem;
+            }
         }
     </style>
 </head>
 <body>
+<div class="container">
+    <div class="hero">
+        <h1>✨ Интерактивная песочница</h1>
+        <div class="tagline">JavaScript | Живые компоненты | Анимация и удобство</div>
+    </div>
 
-    <!-- Сетка для частиц фона -->
-    <div id="particles-js"></div>
+    <div class="dashboard">
+        <!-- Карточка 1: Счётчик с историей -->
+        <div class="card">
+            <h2>🔢 Умный счётчик</h2>
+            <div class="counter-area">
+                <div class="counter-display" id="counterValue">0</div>
+                <div class="button-group">
+                    <button id="incBtn">+1 Увеличить</button>
+                    <button id="decBtn" class="btn-secondary">-1 Уменьшить</button>
+                    <button id="resetCounterBtn" class="btn-reset">Сброс</button>
+                </div>
+                <div style="font-size: 0.85rem; margin-top: 8px; background: #eef3fc; border-radius: 2rem; padding: 5px 12px;">
+                    📌 Последнее действие: <span id="lastAction">—</span>
+                </div>
+            </div>
+        </div>
 
-    <div class="container">
-        <!-- Анимированный заголовок -->
-        <div class="typing-text">Привет, мир! Это GitHub Pages.</div>
+        <!-- Карточка 2: Палитра цветов и динамический фон -->
+        <div class="card">
+            <h2>🎨 Магия цвета</h2>
+            <div class="color-box">
+                <div class="color-preview" id="colorPreview"></div>
+                <div class="color-controls">
+                    <div class="color-btn" style="background-color: #4a90e2;" data-color="#4a90e2"></div>
+                    <div class="color-btn" style="background-color: #e94f4f;" data-color="#e94f4f"></div>
+                    <div class="color-btn" style="background-color: #43b380;" data-color="#43b380"></div>
+                    <div class="color-btn" style="background-color: #f5a623;" data-color="#f5a623"></div>
+                    <div class="color-btn" style="background-color: #9b59b6;" data-color="#9b59b6"></div>
+                    <div class="color-btn" style="background-color: #1abc9c;" data-color="#1abc9c"></div>
+                </div>
+                <button id="randomColorBtn" style="margin-top: 14px; background:#334e68;">🎲 Случайный цвет</button>
+                <p style="margin-top: 12px; font-size: 0.75rem;">Выберите цвет — фон блока изменится</p>
+            </div>
+        </div>
 
-        <!-- 3D Карточка -->
-        <div class="card" id="tilt-card">
-            <h2>Киберпанк Эффект</h2>
-            <p>Двигай курсором по этой карточке, чтобы увидеть интерактивный 3D-наклон. При наведении срабатывает мягкое неоновое свечение.</p>
+        <!-- Карточка 3: Список дел (To-Do) -->
+        <div class="card">
+            <h2>✅ Задачник</h2>
+            <div class="todo-input-group">
+                <input type="text" id="todoInput" placeholder="Написать код... 📝" maxlength="50">
+                <button id="addTodoBtn">➕ Добавить</button>
+            </div>
+            <ul class="todo-list" id="todoListContainer">
+                <li style="opacity:0.7;">✨ Пример: нажмите "Добавить"</li>
+            </ul>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <span id="todoStats">📋 0 задач</span>
+                <button id="clearTodosBtn" class="btn-reset" style="padding: 0.3rem 1rem;">Очистить всё</button>
+            </div>
+        </div>
+
+        <!-- Карточка 4: Таймер + анимация -->
+        <div class="card">
+            <h2>⏱️ Таймер сессии</h2>
+            <div class="timer-panel">
+                <div class="timer-clock" id="timerDisplay">00:00</div>
+                <div class="button-group">
+                    <button id="startTimerBtn">▶ Старт</button>
+                    <button id="pauseTimerBtn" class="btn-secondary">⏸ Пауза</button>
+                    <button id="resetTimerBtn" class="btn-reset">🔄 Сброс</button>
+                </div>
+                <p style="margin-top: 14px; font-size: 0.75rem;">Секундомер с точностью до секунды</p>
+            </div>
         </div>
     </div>
 
-    <!-- Подключаем легкую библиотеку для летящих точек -->
-    <script src="https://jsdelivr.net"></script>
-    <script>
-        /* Настройка фона из частиц */
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#00f0ff" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.5, "random": false },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#ff007f", "opacity": 0.2, "width": 1 },
-                "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }
-            },
-            "retina_detect": true
-        });
+    <!-- Дополнительная интерактивная панель: динамическое приветствие -->
+    <div style="margin-top: 2rem; background: rgba(255,255,240,0.7); border-radius: 2rem; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+        <div>
+            <span style="font-weight: bold;">👋 Привет, гость! </span>
+            <span id="liveTimeMsg">Сегодня отличный день для кода.</span>
+        </div>
+        <button id="greetingBtn" style="background:#2c5a6e;">💬 Показать сообщение</button>
+    </div>
+    <footer>
+        ⚡ Создано на чистом JavaScript • Реактивные компоненты • Никаких зависимостей
+    </footer>
+</div>
 
-        /* Скрипт для 3D наклона карточки за мышкой */
-        const card = document.getElementById('tilt-card');
-        document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
-        });
+<script>
+    // ---------- 1. Умный счётчик ----------
+    let counter = 0;
+    const counterEl = document.getElementById('counterValue');
+    const lastActionSpan = document.getElementById('lastAction');
 
-        // Сброс наклона, когда мышка уходит
-        document.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    function updateCounterUI() {
+        counterEl.innerText = counter;
+        // дополнительная визуальная динамика: мигание при изменении (небольшой эффект)
+        counterEl.style.transform = 'scale(1.05)';
+        setTimeout(() => { if(counterEl) counterEl.style.transform = 'scale(1)'; }, 130);
+    }
+
+    function setLastAction(message) {
+        lastActionSpan.innerText = message;
+    }
+
+    document.getElementById('incBtn').addEventListener('click', () => {
+        counter++;
+        updateCounterUI();
+        setLastAction(`+1 → ${counter}`);
+    });
+    document.getElementById('decBtn').addEventListener('click', () => {
+        counter--;
+        updateCounterUI();
+        setLastAction(`-1 → ${counter}`);
+    });
+    document.getElementById('resetCounterBtn').addEventListener('click', () => {
+        counter = 0;
+        updateCounterUI();
+        setLastAction(`сброс → 0`);
+    });
+
+    // ---------- 2. Палитра цвета: изменение блока preview, плюс можно менять стиль карточки? (по желанию - меняем preview)
+    const colorPreviewDiv = document.getElementById('colorPreview');
+    const colorBtns = document.querySelectorAll('.color-btn');
+    const randomColorBtn = document.getElementById('randomColorBtn');
+
+    function setColor(colorHex) {
+        colorPreviewDiv.style.backgroundColor = colorHex;
+        // Добавим легкий эффект "пульсация"
+        colorPreviewDiv.style.transform = 'scale(0.98)';
+        setTimeout(() => { if(colorPreviewDiv) colorPreviewDiv.style.transform = 'scale(1)'; }, 120);
+        // Сохраним в LocalStorage (просто для прикола)
+        localStorage.setItem('favColor', colorHex);
+    }
+
+    colorBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const color = btn.getAttribute('data-color');
+            if(color) setColor(color);
         });
-    </script>
+    });
+
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    randomColorBtn.addEventListener('click', () => {
+        const randCol = getRandomColor();
+        setColor(randCol);
+    });
+
+    // восстановим цвет если был сохранен
+    const savedColor = localStorage.getItem('favColor');
+    if(savedColor && savedColor.match(/^#[0-9A-F]{6}$/i)) {
+        setColor(savedColor);
+    } else {
+        // начальный цвет
+        setColor('#4a90e2');
+    }
+
+    // ---------- 3. To-Do лист с полным функционалом ----------
+    const todoInput = document.getElementById('todoInput');
+    const addTodoBtn = document.getElementById('addTodoBtn');
+    const todoListContainer = document.getElementById('todoListContainer');
+    const todoStatsSpan = document.getElementById('todoStats');
+    const clearTodosBtn = document.getElementById('clearTodosBtn');
+
+    let todos = []; // массив объектов { text, completed }
+
+    function renderTodoList() {
+        if(!todoListContainer) return;
+        if(todos.length === 0) {
+            todoListContainer.innerHTML = '<li style="opacity:0.6; justify-content:center;">✨ Список пуст, добавьте задачу</li>';
+            todoStatsSpan.innerText = '📋 0 задач';
+            return;
+        }
+        const fragment = document.createDocumentFragment();
+        todos.forEach((todo, index) => {
+            const li = document.createElement('li');
+            const spanText = document.createElement('span');
+            spanText.className = 'todo-text';
+            if(todo.completed) spanText.classList.add('completed');
+            spanText.innerText = todo.text;
+            spanText.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleTodoComplete(index);
+            });
+
+            const delBtn = document.createElement('button');
+            delBtn.innerText = '✖';
+            delBtn.className = 'delete-todo';
+            delBtn.setAttribute('aria-label', 'Удалить');
+            delBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteTodoItem(index);
+            });
+            li.appendChild(spanText);
+            li.appendChild(delBtn);
+            fragment.appendChild(li);
+        });
+        todoListContainer.innerHTML = '';
+        todoListContainer.appendChild(fragment);
+        const completedCount = todos.filter(t => t.completed).length;
+        todoStatsSpan.innerText = `📋 ${todos.length} задач (✓ ${completedCount} выполнено)`;
+    }
+
+    function addNewTodo() {
+        const text = todoInput.value.trim();
+        if(text === "") {
+            // легкое уведомление
+            const alertMsg = document.createElement('div');
+            alertMsg.innerText = '✏️ Введите текст задачи!';
+            alertMsg.style.position = 'fixed';
+            alertMsg.style.bottom = '20px';
+            alertMsg.style.left = '20px';
+            alertMsg.style.background = '#ffecb3';
+            alertMsg.style.padding = '8px 18px';
+            alertMsg.style.borderRadius = '30px';
+            alertMsg.style.zIndex = '999';
+            alertMsg.style.fontSize = '0.85rem';
+            document.body.appendChild(alertMsg);
+            setTimeout(() => alertMsg.remove(), 1500);
+            return;
+        }
+        if(text.length > 50) {
+            alert("Максимум 50 символов");
+            return;
+        }
+        todos.push({ text: text, completed: false });
+        todoInput.value = "";
+        renderTodoList();
+        saveTodosToLocal();
+    }
+
+    function toggleTodoComplete(index) {
+        if(todos[index]) {
+            todos[index].completed = !todos[index].completed;
+            renderTodoList();
+            saveTodosToLocal();
+        }
+    }
+
+    function deleteTodoItem(index) {
+        todos.splice(index, 1);
+        renderTodoList();
+        saveTodosToLocal();
+    }
+
+    function clearAllTodos() {
+        if(todos.length > 0 && confirm("Удалить все задачи?")) {
+            todos = [];
+            renderTodoList();
+            saveTodosToLocal();
+        } else if(todos.length === 0) {
+            // просто уведомление
+        }
+    }
+
+    function saveTodosToLocal() {
+        localStorage.setItem('todoAppList', JSON.stringify(todos));
+    }
+
+    function loadTodosFromLocal() {
+        const stored = localStorage.getItem('todoAppList');
+        if(stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if(Array.isArray(parsed)) {
+                    todos = parsed;
+                } else {
+                    todos = [];
+                }
+            } catch(e) { todos = []; }
+        } else {
+            // демо-примеры для красоты: несколько примеров задач
+            todos = [
+                { text: 'Изучить JavaScript промисы', completed: false },
+                { text: 'Поэкспериментировать с DOM', completed: true },
+                { text: '⭐ Наслаждаться интерфейсом', completed: false }
+            ];
+        }
+        renderTodoList();
+    }
+
+    addTodoBtn.addEventListener('click', addNewTodo);
+    todoInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') addNewTodo();
+    });
+    clearTodosBtn.addEventListener('click', clearAllTodos);
+
+    // ---------- 4. Таймер (секундомер) ----------
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let isTimerRunning = false;
+    const timerDisplaySpan = document.getElementById('timerDisplay');
+    const startTimerBtn = document.getElementById('startTimerBtn');
+    const pauseTimerBtn = document.getElementById('pauseTimerBtn');
+    const resetTimerBtn = document.getElementById('resetTimerBtn');
+
+    function formatTimer(sec) {
+        const mins = Math.floor(sec / 60);
+        const remainingSec = sec % 60;
+        return `${mins.toString().padStart(2, '0')}:${remainingSec.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimerUI() {
+        if(timerDisplaySpan) timerDisplaySpan.innerText = formatTimer(timerSeconds);
+    }
+
+    function startTimer() {
+        if(isTimerRunning) return;
+        isTimerRunning = true;
+        if(timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if(isTimerRunning) {
+                timerSeconds++;
+                updateTimerUI();
+                // вибрация на UI? нет, просто счет
+            }
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        if(!isTimerRunning) return;
+        isTimerRunning = false;
+        if(timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+
+    function resetTimer() {
+        pauseTimer();
+        timerSeconds = 0;
+        updateTimerUI();
+        isTimerRunning = false;
+    }
+
+    startTimerBtn.addEventListener('click', startTimer);
+    pauseTimerBtn.addEventListener('click', pauseTimer);
+    resetTimerBtn.addEventListener('click', resetTimer);
+
+    // ---------- 5. Дополнительные функции: приветствие и актуальное время ----------
+    const liveTimeMsgSpan = document.getElementById('liveTimeMsg');
+    const greetingBtn = document.getElementById('greetingBtn');
+
+    function updateLiveMessage() {
+        const now = new Date();
+        const hours = now.getHours();
+        let greeting = '';
+        if(hours < 12) greeting = 'Доброе утро ☀️';
+        else if(hours < 18) greeting = 'Хорошего дня 🌤️';
+        else greeting = 'Спокойной ночи 🌙';
+        liveTimeMsgSpan.innerHTML = `${greeting}, сейчас ${now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
+    }
+    updateLiveMessage();
+    setInterval(updateLiveMessage, 1000);
+
+    greetingBtn.addEventListener('click', () => {
+        const userMessage = prompt("Введите ваше имя или пожелание:", "Друг");
+        if(userMessage && userMessage.trim() !== "") {
+            alert(`✨ Привет, ${userMessage}! Спасибо за использование интерактивного сайта ✨`);
+        } else if (userMessage !== null) {
+            alert("👋 Привет! Рады вас видеть!");
+        }
+    });
+
+    // дополнительный эффект: при загрузке показать актуальный counter и загрузить таймер
+    // Инициализация To-Do:
+    loadTodosFromLocal();
+    updateCounterUI();
+    setLastAction("готово");
+    // Если был сохранен счетчик? по желанию нет, но все ок.
+    // добавим слушатель для сохранения Todo при закрытии? уже сохраняется при каждом изменении
+
+    // Небольшой эффект для демонстрации динамичности: слушатели на карточки, чтобы показать активность.
+    console.log("Сайт полностью загружен, все модули активны!");
+
+    // Анимация при наведении на таймер - просто приятно
+    // но все работает.
+    // Также: чтобы изменить background главного блока? не обязательно, но добавим эстетику.
+    // Легкий "живой" таймер на часах не мешает.
+    // финальный штрих: добавим кнопку импровизации для очистки localStorage с задачами (но не обязательно)
+    window.addEventListener('beforeunload', () => {
+        // автосохранение уже есть
+    });
+    // дополнительная фишка: сбросить все данные (секретная комбинация?) можно кнопкой "Сбросить настройки" пока не нужна.
+    // но реализуем красивый обработчик для любого динамического события.
+    // Адаптивность.
+</script>
 </body>
 </html>
